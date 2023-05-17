@@ -1,4 +1,4 @@
-package com.example.imagesearch
+package com.example.imagesearch.presentation
 
 import android.os.Bundle
 import android.view.View
@@ -6,8 +6,15 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.example.imagesearch.R
+import com.example.imagesearch.presentation.viewmodel.ResultsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ResultsFragment : Fragment(R.layout.fragment_results) {
+
+    private val resultsViewModel: ResultsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,7 +35,7 @@ class ResultsFragment : Fragment(R.layout.fragment_results) {
     }
 
     private fun onNewQuery(query: String) {
-        TODO("Not yet implemented")
+        resultsViewModel.getImages(query)
     }
 
 }
