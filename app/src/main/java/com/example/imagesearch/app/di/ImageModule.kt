@@ -1,4 +1,4 @@
-package com.example.imagesearch.app
+package com.example.imagesearch.app.di
 
 import com.example.imagesearch.data.ImageRepositoryImpl
 import com.example.imagesearch.domain.repository.ImageRepository

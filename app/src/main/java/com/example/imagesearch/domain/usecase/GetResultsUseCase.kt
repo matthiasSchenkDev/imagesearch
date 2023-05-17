@@ -17,7 +17,7 @@ class GetResultsUseCase @Inject constructor(
         return params?.let {
             it as GetResultsUseCaseParams
             imageRepository.getImages(it.query)
-        } ?: flowOf(NetworkResult.Error("missing or illegal query"))
+        } ?: flowOf(NetworkResult.Error(Throwable("missing or illegal query")))
     }
 
 }

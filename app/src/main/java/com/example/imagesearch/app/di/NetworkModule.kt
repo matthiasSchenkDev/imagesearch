@@ -1,7 +1,8 @@
-package com.example.imagesearch.app
+package com.example.imagesearch.app.di
 
 import android.util.Log
 import com.example.imagesearch.BuildConfig
+import com.example.imagesearch.app.LOG_TAG
 import com.example.imagesearch.data.ImageApi
 import dagger.Module
 import dagger.Provides
@@ -48,6 +49,5 @@ class NetworkModule {
     @Provides
     @Named("apiKey")
     fun provideApiKey() = BuildConfig.PIXABAY_API_KEY
-
 
 }
