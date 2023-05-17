@@ -6,10 +6,15 @@ import retrofit2.http.Query
 
 interface ImageApi {
 
+    companion object {
+        const val DEFAULT_PAGE = 1
+    }
+
     @GET("api/")
     suspend fun getImages(
         @Query("key") key: String,
-        @Query("q") query: String
+        @Query("q") query: String,
+        @Query("page") page: Int,
     ): ImagesDto
 
 }

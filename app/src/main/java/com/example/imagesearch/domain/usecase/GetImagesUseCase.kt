@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class GetResultsUseCase @Inject constructor(
+class GetImagesUseCase @Inject constructor(
     private val imageRepository: ImageRepository
 ) : UseCase<List<Image>> {
 
@@ -16,7 +16,7 @@ class GetResultsUseCase @Inject constructor(
     override suspend fun build(params: UseCaseParams?): Flow<NetworkResult<List<Image>>> {
         return params?.let {
             it as GetResultsUseCaseParams
-            imageRepository.getImages(it.query)
+            imageRepository.getImagesPaginated(it.query)
         } ?: flowOf(NetworkResult.Error(Throwable("missing or illegal query")))
     }
 

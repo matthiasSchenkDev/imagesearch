@@ -3,5 +3,5 @@
     <string name="app_title">Image search</string>
     <string name="menu_item_search_view">Search</string>
     <string name="list_item_user_name">"Username: %1$s"</string>
-    <string name="list_item_tags">"Username: %1$s"</string>
+    <string name="list_item_tags">"Tags: %1$s"</string>
 </resources>

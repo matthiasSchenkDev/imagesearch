@@ -1,6 +1,6 @@
 package com.example.imagesearch.data
 
-import com.example.imagesearch.app.checkNotEmpty
+import com.example.imagesearch.app.checkNotNullOrEmpty
 import com.example.imagesearch.data.dto.ImageDto
 import com.example.imagesearch.domain.model.Image
 import javax.inject.Inject
@@ -11,21 +11,15 @@ class ImageDtoMapper @Inject constructor() {
 
         return try {
             checkNotNull(imageDto.id)
-
-            checkNotNull(imageDto.webformatURL)
-            checkNotEmpty(imageDto.webformatURL)
-
-            checkNotNull(imageDto.user)
-            checkNotEmpty(imageDto.user)
-
-            checkNotNull(imageDto.tags)
-            checkNotEmpty(imageDto.tags)
+            checkNotNullOrEmpty(imageDto.previewURL)
+            checkNotNullOrEmpty(imageDto.user)
+            checkNotNullOrEmpty(imageDto.tags)
 
             Image(
                 id = imageDto.id,
-                thumbnailUrl = imageDto.webformatURL,
-                userName = imageDto.user,
-                tags = imageDto.tags ?: ""
+                thumbnailUrl = imageDto.previewURL!!,
+                userName = imageDto.user!!,
+                tags = imageDto.tags!!
             )
         } catch (e: IllegalStateException) {
             null

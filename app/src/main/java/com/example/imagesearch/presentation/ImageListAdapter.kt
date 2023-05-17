@@ -25,7 +25,7 @@ class ImageListAdapter :
         with(holder) {
             Picasso
                 .get()
-                .load(image.thumbnailUrlResized)
+                .load(image.thumbnailUrl)
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(thumbnail)
             name.text = itemView.context.getString(R.string.list_item_user_name, image.userName)
@@ -45,7 +45,7 @@ class ImageListAdapter :
             oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: ImageEntity, newItem: ImageEntity): Boolean =
-            oldItem.thumbnailUrlResized == newItem.thumbnailUrlResized
+            oldItem.thumbnailUrl == newItem.thumbnailUrl
                     && oldItem.userName == newItem.userName
                     && oldItem.tags == newItem.tags
     }
