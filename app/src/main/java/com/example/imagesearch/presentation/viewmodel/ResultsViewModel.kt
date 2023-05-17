@@ -25,7 +25,6 @@ class ResultsViewModel @Inject constructor(
                 is NetworkResult.Success -> resultsLiveEvent.postValue(it.data)
                 is NetworkResult.Error -> {}
             }
-
         }
     }
 
