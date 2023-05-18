@@ -1,9 +1,9 @@
 package com.example.imagesearch.data.dto
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class ImagesDto(
-    @JsonProperty("hits") val hits: List<ImageDto>?,
-    @JsonProperty("total") val total: Int?,
-    @JsonProperty("totalHits") val totalHits: Int?
+    @SerializedName("hits") val hits: List<ImageDto>?,
+    @SerializedName("total") val total: Int?,
+    @SerializedName("totalHits") val totalHits: Int?
 )

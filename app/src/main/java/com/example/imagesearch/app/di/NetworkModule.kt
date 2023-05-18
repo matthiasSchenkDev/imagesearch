@@ -12,7 +12,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Retrofit
-import retrofit2.converter.jackson.JacksonConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 
 @Module
@@ -40,7 +40,7 @@ class NetworkModule {
     fun provideRetrofit(): Retrofit = Retrofit.Builder()
         .client(okHttpClient)
         .baseUrl(BASE_URL)
-        .addConverterFactory(JacksonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     @Provides
