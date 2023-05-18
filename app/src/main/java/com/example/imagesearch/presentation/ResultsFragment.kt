@@ -1,7 +1,6 @@
 package com.example.imagesearch.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
@@ -12,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagesearch.R
-import com.example.imagesearch.app.LOG_TAG
 import com.example.imagesearch.app.hide
 import com.example.imagesearch.app.show
 import com.example.imagesearch.presentation.viewmodel.ResultsViewModel
@@ -27,26 +25,42 @@ class ResultsFragment : Fragment(R.layout.fragment_results) {
     private lateinit var list: RecyclerView
     private lateinit var loadingSpinner: ProgressBar
 
+    private lateinit var imageListAdapter: ImageListAdapter
+
+    private var isLoading = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(view) {
             toolbar = findViewById(R.id.resultsFragmentToolbar)
             loadingSpinner = findViewById(R.id.loadingSpinner)
-
-            val imageListAdapter = ImageListAdapter()
-            list = findViewById<RecyclerView>(R.id.imagesList).apply {
-                layoutManager = LinearLayoutManager(requireContext())
-                adapter = imageListAdapter
-            }
+            list = findViewById(R.id.imagesList)
 
             setupToolbar()
+            setupList()
 
             resultsViewModel.resultsLiveEvent.observe(viewLifecycleOwner) {
-                Log.d(LOG_TAG, "results fetched: ${it.size}")
+                isLoading = false
+                imageListAdapter.removeLoadingItem()
                 imageListAdapter.submitList(it)
                 loadingSpinner.hide()
                 list.show()
             }
+        }
+    }
+
+    private fun setupList() {
+        imageListAdapter = ImageListAdapter()
+        list.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = imageListAdapter
+            addOnScrollListener(PaginationScrollListener {
+                if (!isLoading) {
+                    isLoading = true
+                    imageListAdapter.addLoadingItem()
+                    resultsViewModel.getMoreImages()
+                }
+            })
         }
     }
 
@@ -56,6 +70,7 @@ class ResultsFragment : Fragment(R.layout.fragment_results) {
         searchView.setOnQueryTextListener(object : OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
+                    isLoading = true
                     list.hide()
                     loadingSpinner.show()
                     resultsViewModel.getImages(query)

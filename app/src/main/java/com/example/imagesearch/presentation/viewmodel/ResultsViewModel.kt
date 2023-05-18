@@ -20,7 +20,10 @@ class ResultsViewModel @Inject constructor(
 
     val resultsLiveEvent: LiveEvent<List<ImageEntity>> = LiveEvent()
 
+    private var currentQuery: String = ""
+
     fun getImages(query: String) = viewModelScope.launch(Dispatchers.IO) {
+        currentQuery = query
         val params = GetImagesUseCase.GetResultsUseCaseParams(query)
         getImagesUseCase.build(params).collect { networkResult ->
             when (networkResult) {
@@ -33,5 +36,7 @@ class ResultsViewModel @Inject constructor(
             }
         }
     }
+
+    fun getMoreImages() = getImages(currentQuery)
 
 }

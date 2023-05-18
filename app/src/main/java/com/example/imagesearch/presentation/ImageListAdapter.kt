@@ -12,32 +12,81 @@ import com.example.imagesearch.R
 import com.squareup.picasso.Picasso
 
 class ImageListAdapter :
-    ListAdapter<ImageEntity, ImageListAdapter.ImageViewHolder>(ImageDiffCallBack()) {
+    ListAdapter<ImageEntity, RecyclerView.ViewHolder>(ImageDiffCallBack()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.list_item_image, parent, false)
-        return ImageViewHolder(view)
+    companion object {
+        private const val IMAGE_ITEM = 0
+        private const val LOADING_ITEM = 1
     }
 
-    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val image = getItem(position) as ImageEntity
-        with(holder) {
-            Picasso
-                .get()
-                .load(image.thumbnailUrl)
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .into(thumbnail)
-            name.text = itemView.context.getString(R.string.list_item_user_name, image.userName)
-            tags.text = itemView.context.getString(R.string.list_item_tags, image.tags)
+    private var isLoadingItemAdded = false
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val viewHolder = when (viewType) {
+            IMAGE_ITEM -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.list_item_image, parent, false)
+                ImageViewHolder(view)
+            }
+
+            else -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.list_item_loading, parent, false)
+                LoadingViewHolder(view)
+            }
+        }
+        return viewHolder
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == currentList.lastIndex && isLoadingItemAdded) {
+            LOADING_ITEM
+        } else IMAGE_ITEM
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (getItemViewType(position)) {
+            IMAGE_ITEM -> {
+                val image = getItem(position) as ImageEntity
+                with(holder as ImageViewHolder) {
+                    Picasso
+                        .get()
+                        .load(image.thumbnailUrl)
+                        .placeholder(R.drawable.ic_launcher_foreground)
+                        .into(thumbnail)
+                    name.text =
+                        itemView.context.getString(R.string.list_item_user_name, image.userName)
+                    tags.text = itemView.context.getString(R.string.list_item_tags, image.tags)
+                }
+            }
+
+            else -> {}
         }
     }
 
-    class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun addLoadingItem() {
+        isLoadingItemAdded = true
+        val list = currentList.toMutableList()
+        list.add(ImageEntity(-1, "", "", ""))
+        submitList(list)
+    }
+
+    fun removeLoadingItem() {
+        val list = currentList.toMutableList()
+        if (isLoadingItemAdded && list.isNotEmpty()) {
+            isLoadingItemAdded = false
+            list.removeAt(list.lastIndex)
+            submitList(list)
+        }
+    }
+
+    inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val thumbnail: ImageView = itemView.findViewById(R.id.thumbnail)
         val name: TextView = itemView.findViewById(R.id.name)
         val tags: TextView = itemView.findViewById(R.id.tags)
     }
+
+    inner class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private class ImageDiffCallBack : DiffUtil.ItemCallback<ImageEntity>() {
 
