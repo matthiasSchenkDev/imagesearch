@@ -60,19 +60,16 @@ class ImageRepositoryImpl @Inject constructor(
     private suspend fun getImagesFromWeb(query: String): List<ImageDto>? {
         val imagesDto = imageApi.getImages(key = apiKey, query = query, page = paginationIndex)
         return imagesDto.hits?.let {
-            val search = SearchDto(query = query, numPages = paginationIndex, images = it)
+            val search = SearchDto(query = query, numPage = paginationIndex, images = it)
             searchDao.insertSearch(search)
             it
         }
     }
 
     private fun getImagesFromCache(query: String): List<ImageDto>? {
-        return searchDao.getSearch(query)?.let {
-            if (paginationIndex <= it.numPages) {
-                resetPagination()
-                paginationIndex = it.numPages
-                it.images
-            } else null
+        return searchDao.getSearch(query, page = paginationIndex)?.let {
+            paginationIndex = it.numPage
+            it.images
         }
     }
 

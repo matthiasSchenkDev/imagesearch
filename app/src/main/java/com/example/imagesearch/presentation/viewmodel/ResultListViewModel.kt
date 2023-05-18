@@ -32,7 +32,7 @@ class ResultListViewModel @Inject constructor(
                     resultListLiveEvent.postValue(result)
                 }
 
-                is NetworkResult.Error -> resultListLiveEvent.postValue(listOf())
+                is NetworkResult.Error -> {}
             }
         }
     }

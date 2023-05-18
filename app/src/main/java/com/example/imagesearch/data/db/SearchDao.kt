@@ -8,8 +8,8 @@ import com.example.imagesearch.data.dto.SearchDto
 @Dao
 interface SearchDao {
 
-    @Query("SELECT * FROM searchdto WHERE search_query=:query")
-    fun getSearch(query: String): SearchDto?
+    @Query("SELECT * FROM searchdto WHERE search_query = :query AND num_page = :page")
+    fun getSearch(query: String, page: Int): SearchDto?
 
     @Insert
     fun insertSearch(search: SearchDto)
