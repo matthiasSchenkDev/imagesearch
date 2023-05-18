@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".presentation.fragment.ResultsFragment">
+    tools:context=".presentation.fragment.ResultListFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/resultsFragmentToolbar"
+        android:id="@+id/resultListFragmentToolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintVertical_chainStyle="packed"
-        app:menu="@menu/menu_toolbar_results_fragment"
+        app:menu="@menu/menu_toolbar_result_list_fragment"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/app_title"
         app:titleTextColor="@color/white" />
@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/resultsFragmentToolbar"
+        app:layout_constraintTop_toBottomOf="@id/resultListFragmentToolbar"
         tools:listitem="@layout/list_item_image" />
 
     <ProgressBar
@@ -44,7 +44,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/resultsFragmentToolbar"
+        app:layout_constraintTop_toBottomOf="@id/resultListFragmentToolbar"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

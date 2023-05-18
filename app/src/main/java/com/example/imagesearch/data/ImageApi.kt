@@ -17,4 +17,10 @@ interface ImageApi {
         @Query("page") page: Int,
     ): ImagesDto
 
+    @GET("api/")
+    suspend fun getImage(
+        @Query("key") key: String,
+        @Query("id") id: String
+    ): ImagesDto
+
 }

@@ -11,13 +11,13 @@ class GetImagesUseCase @Inject constructor(
     private val imageRepository: ImageRepository
 ) : UseCase<List<Image>> {
 
-    data class GetResultsUseCaseParams(val query: String) : UseCaseParams
+    data class Params(val query: String) : UseCaseParams
 
     override suspend fun build(params: UseCaseParams?): Flow<NetworkResult<List<Image>>> {
         return params?.let {
-            it as GetResultsUseCaseParams
+            it as Params
             imageRepository.getImagesPaginated(it.query)
-        } ?: flowOf(NetworkResult.Error(Throwable("missing or illegal query")))
+        } ?: flowOf(NetworkResult.Error(Throwable("missing query")))
     }
 
 }

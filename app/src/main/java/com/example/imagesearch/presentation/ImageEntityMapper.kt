@@ -10,7 +10,11 @@ class ImageEntityMapper @Inject constructor() {
             id = image.id,
             thumbnailUrl = image.thumbnailUrl,
             userName = image.userName,
-            tags = image.tags
+            tags = image.tags,
+            fullImageUrl = image.fullImageUrl,
+            numLikes = image.numLikes,
+            numComments = image.numComments,
+            numDownloads = image.numDownloads,
         )
     }
 

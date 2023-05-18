@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/resultsFragment">
+    app:startDestination="@id/resultListFragment">
 
     <fragment
-        android:id="@+id/resultsFragment"
-        android:name="com.example.imagesearch.presentation.fragment.ResultsFragment"
-        tools:layout="@layout/fragment_results">
+        android:id="@+id/resultListFragment"
+        android:name="com.example.imagesearch.presentation.fragment.ResultListFragment"
+        tools:layout="@layout/fragment_result_list">
         <action
             android:id="@+id/action_ResultsFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
@@ -17,6 +17,10 @@
         android:id="@+id/detailsFragment"
         android:name="com.example.imagesearch.presentation.fragment.DetailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="imageId"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

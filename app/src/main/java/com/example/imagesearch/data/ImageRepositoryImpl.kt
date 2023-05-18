@@ -51,6 +51,22 @@ class ImageRepositoryImpl @Inject constructor(
             emit(result)
         }
 
+    override suspend fun getImage(id: Int): Flow<NetworkResult<Image>> = flow {
+        val result = try {
+            val imagesDto = imageApi.getImage(key = apiKey, id = id.toString())
+            Log.d(LOG_TAG, "images fetched for id '$id': ${imagesDto.hits}")
+            val images = imagesDto.hits?.mapNotNull { imageDtoMapper.transform(it) }
+            if (images.isNullOrEmpty()) {
+                NetworkResult.Error(Throwable("no images available for this id"))
+            } else {
+                NetworkResult.Success(images.first())
+            }
+        } catch (e: Throwable) {
+            NetworkResult.Error(e)
+        }
+        emit(result)
+    }
+
     private fun resetPagination() {
         queryCache.clear()
         paginationIndex = DEFAULT_PAGE

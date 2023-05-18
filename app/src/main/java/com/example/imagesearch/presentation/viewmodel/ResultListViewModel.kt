@@ -13,26 +13,26 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ResultsViewModel @Inject constructor(
+class ResultListViewModel @Inject constructor(
     private val getImagesUseCase: GetImagesUseCase,
     private val imageEntityMapper: ImageEntityMapper
 ) : ViewModel() {
 
-    val resultsLiveEvent: LiveEvent<List<ImageEntity>> = LiveEvent()
+    val resultListLiveEvent: LiveEvent<List<ImageEntity>> = LiveEvent()
 
     private var currentQuery: String = ""
 
     fun getImages(query: String) = viewModelScope.launch(Dispatchers.IO) {
         currentQuery = query
-        val params = GetImagesUseCase.GetResultsUseCaseParams(query)
+        val params = GetImagesUseCase.Params(query)
         getImagesUseCase.build(params).collect { networkResult ->
             when (networkResult) {
                 is NetworkResult.Success -> {
                     val result = networkResult.data.map { imageEntityMapper.transform(it) }
-                    resultsLiveEvent.postValue(result)
+                    resultListLiveEvent.postValue(result)
                 }
 
-                is NetworkResult.Error -> resultsLiveEvent.postValue(listOf())
+                is NetworkResult.Error -> resultListLiveEvent.postValue(listOf())
             }
         }
     }

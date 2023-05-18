@@ -8,4 +8,6 @@ interface ImageRepository {
 
     suspend fun getImagesPaginated(query: String): Flow<NetworkResult<List<Image>>>
 
+    suspend fun getImage(id: Int): Flow<NetworkResult<Image>>
+
 }

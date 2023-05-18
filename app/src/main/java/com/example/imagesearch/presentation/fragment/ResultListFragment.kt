@@ -14,21 +14,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagesearch.R
 import com.example.imagesearch.app.hide
+import com.example.imagesearch.app.hideSoftKeyboard
 import com.example.imagesearch.app.show
-import com.example.imagesearch.presentation.ImageEntity
 import com.example.imagesearch.presentation.ImageListAdapter
 import com.example.imagesearch.presentation.PaginationScrollListener
-import com.example.imagesearch.presentation.viewmodel.ResultsViewModel
+import com.example.imagesearch.presentation.viewmodel.ResultListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ResultsFragment : Fragment(R.layout.fragment_results) {
+class ResultListFragment : Fragment(R.layout.fragment_result_list) {
 
     companion object {
         private const val INITIAL_QUERY = "fruits"
     }
 
-    private val resultsViewModel: ResultsViewModel by viewModels()
+    private val resultListViewModel: ResultListViewModel by viewModels()
 
     private lateinit var toolbar: Toolbar
     private lateinit var list: RecyclerView
@@ -42,14 +42,14 @@ class ResultsFragment : Fragment(R.layout.fragment_results) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(view) {
-            toolbar = findViewById(R.id.resultsFragmentToolbar)
+            toolbar = findViewById(R.id.resultListFragmentToolbar)
             loadingSpinner = findViewById(R.id.loadingSpinner)
             list = findViewById(R.id.imagesList)
 
             setupToolbar()
             setupList()
 
-            resultsViewModel.resultsLiveEvent.observe(viewLifecycleOwner) {
+            resultListViewModel.resultListLiveEvent.observe(viewLifecycleOwner) {
                 isLoading = false
                 imageListAdapter.removeLoadingItem()
                 imageListAdapter.submitList(it)
@@ -57,7 +57,7 @@ class ResultsFragment : Fragment(R.layout.fragment_results) {
                 list.show()
             }
 
-            resultsViewModel.resultsLiveEvent.value?.let {
+            resultListViewModel.resultListLiveEvent.value?.let {
                 imageListAdapter.submitList(it)
             } ?: searchView.setQuery(INITIAL_QUERY, true)
         }
@@ -73,17 +73,18 @@ class ResultsFragment : Fragment(R.layout.fragment_results) {
                 if (!isLoading) {
                     isLoading = true
                     imageListAdapter.addLoadingItem()
-                    resultsViewModel.getMoreImages()
+                    resultListViewModel.getMoreImages()
                 }
             })
         }
     }
 
-    private fun showDetailsNavigationDialog(imageEntity: ImageEntity) {
+    private fun showDetailsNavigationDialog(imageId: Int) {
         val builder = AlertDialog.Builder(requireContext()).apply {
             setMessage(R.string.dialog_message_more_details)
             setPositiveButton(getString(R.string.yes)) { _, _ ->
-                val action = ResultsFragmentDirections.actionResultsFragmentToDetailsFragment()
+                val action =
+                    ResultListFragmentDirections.actionResultsFragmentToDetailsFragment(imageId)
                 findNavController().navigate(action)
             }
             setNegativeButton(getString(R.string.no)) { dialog, _ ->
@@ -95,15 +96,16 @@ class ResultsFragment : Fragment(R.layout.fragment_results) {
     }
 
     private fun setupToolbar() {
-        val searchViewMenuItem = toolbar.menu.findItem(R.id.action_results_fragment_search)
+        val searchViewMenuItem = toolbar.menu.findItem(R.id.action_result_list_fragment_search)
         searchView = searchViewMenuItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                requireActivity().hideSoftKeyboard()
                 if (!query.isNullOrEmpty()) {
                     isLoading = true
                     list.hide()
                     loadingSpinner.show()
-                    resultsViewModel.getImages(query)
+                    resultListViewModel.getImages(query)
                 }
                 return true
             }
