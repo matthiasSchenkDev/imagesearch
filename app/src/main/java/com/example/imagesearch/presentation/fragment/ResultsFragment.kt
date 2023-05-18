@@ -1,4 +1,4 @@
-package com.example.imagesearch.presentation
+package com.example.imagesearch.presentation.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.imagesearch.R
 import com.example.imagesearch.app.hide
 import com.example.imagesearch.app.show
+import com.example.imagesearch.presentation.ImageEntity
+import com.example.imagesearch.presentation.ImageListAdapter
+import com.example.imagesearch.presentation.PaginationScrollListener
 import com.example.imagesearch.presentation.viewmodel.ResultsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,7 +57,9 @@ class ResultsFragment : Fragment(R.layout.fragment_results) {
                 list.show()
             }
 
-            searchView.setQuery(INITIAL_QUERY, true)
+            resultsViewModel.resultsLiveEvent.value?.let {
+                imageListAdapter.submitList(it)
+            } ?: searchView.setQuery(INITIAL_QUERY, true)
         }
     }
 

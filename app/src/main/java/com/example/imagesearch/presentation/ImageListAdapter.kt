@@ -56,9 +56,8 @@ class ImageListAdapter :
                         .load(image.thumbnailUrl)
                         .placeholder(R.drawable.ic_launcher_foreground)
                         .into(thumbnail)
-                    name.text =
-                        itemView.context.getString(R.string.list_item_user_name, image.userName)
-                    tags.text = itemView.context.getString(R.string.list_item_tags, image.tags)
+                    name.text = image.userName
+                    tags.text = image.tags
                 }
                 holder.itemView.setOnClickListener { onItemClickListener?.invoke(image) }
             }

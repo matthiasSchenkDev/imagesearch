@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/resultsFragment"
-        android:name="com.example.imagesearch.presentation.ResultsFragment"
-        tools:layout="@layout/fragment_results" >
+        android:name="com.example.imagesearch.presentation.fragment.ResultsFragment"
+        tools:layout="@layout/fragment_results">
         <action
             android:id="@+id/action_ResultsFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.imagesearch.presentation.DetailsFragment"
+        android:name="com.example.imagesearch.presentation.fragment.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" />
 
