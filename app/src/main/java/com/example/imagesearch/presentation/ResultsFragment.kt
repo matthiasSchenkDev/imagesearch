@@ -3,11 +3,13 @@ package com.example.imagesearch.presentation
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagesearch.R
@@ -19,6 +21,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ResultsFragment : Fragment(R.layout.fragment_results) {
 
+    companion object {
+        private const val INITIAL_QUERY = "fruits"
+    }
+
     private val resultsViewModel: ResultsViewModel by viewModels()
 
     private lateinit var toolbar: Toolbar
@@ -26,6 +32,7 @@ class ResultsFragment : Fragment(R.layout.fragment_results) {
     private lateinit var loadingSpinner: ProgressBar
 
     private lateinit var imageListAdapter: ImageListAdapter
+    private lateinit var searchView: SearchView
 
     private var isLoading = false
 
@@ -46,11 +53,14 @@ class ResultsFragment : Fragment(R.layout.fragment_results) {
                 loadingSpinner.hide()
                 list.show()
             }
+
+            searchView.setQuery(INITIAL_QUERY, true)
         }
     }
 
     private fun setupList() {
         imageListAdapter = ImageListAdapter()
+        imageListAdapter.onItemClickListener = { showDetailsNavigationDialog(it) }
         list.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = imageListAdapter
@@ -64,9 +74,24 @@ class ResultsFragment : Fragment(R.layout.fragment_results) {
         }
     }
 
+    private fun showDetailsNavigationDialog(imageEntity: ImageEntity) {
+        val builder = AlertDialog.Builder(requireContext()).apply {
+            setMessage(R.string.dialog_message_more_details)
+            setPositiveButton(getString(R.string.yes)) { _, _ ->
+                val action = ResultsFragmentDirections.actionResultsFragmentToDetailsFragment()
+                findNavController().navigate(action)
+            }
+            setNegativeButton(getString(R.string.no)) { dialog, _ ->
+                dialog.dismiss()
+            }
+        }
+        val alert = builder.create()
+        alert.show()
+    }
+
     private fun setupToolbar() {
         val searchViewMenuItem = toolbar.menu.findItem(R.id.action_results_fragment_search)
-        val searchView = searchViewMenuItem.actionView as SearchView
+        searchView = searchViewMenuItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {

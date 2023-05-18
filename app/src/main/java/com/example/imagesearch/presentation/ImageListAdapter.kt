@@ -14,6 +14,8 @@ import com.squareup.picasso.Picasso
 class ImageListAdapter :
     ListAdapter<ImageEntity, RecyclerView.ViewHolder>(ImageDiffCallBack()) {
 
+    var onItemClickListener: ((image: ImageEntity) -> Unit)? = null
+
     companion object {
         private const val IMAGE_ITEM = 0
         private const val LOADING_ITEM = 1
@@ -58,6 +60,7 @@ class ImageListAdapter :
                         itemView.context.getString(R.string.list_item_user_name, image.userName)
                     tags.text = itemView.context.getString(R.string.list_item_tags, image.tags)
                 }
+                holder.itemView.setOnClickListener { onItemClickListener?.invoke(image) }
             }
 
             else -> {}
