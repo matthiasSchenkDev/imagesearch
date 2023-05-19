@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.imagesearch.R
 import com.example.imagesearch.app.hide
+import com.example.imagesearch.app.show
 import com.example.imagesearch.presentation.viewmodel.DetailsViewModel
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -27,6 +28,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private lateinit var toolbar: Toolbar
     private lateinit var image: ImageView
     private lateinit var loadingSpinner: ProgressBar
+    private lateinit var errorView: View
+    private lateinit var imageErrorView: View
     private lateinit var name: TextView
     private lateinit var tags: TextView
     private lateinit var likes: TextView
@@ -42,6 +45,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
             image = findViewById(R.id.image)
             loadingSpinner = findViewById(R.id.loadingSpinner)
+            errorView = findViewById(R.id.errorView)
+            imageErrorView = findViewById(R.id.imageErrorView)
             name = findViewById(R.id.name)
             tags = findViewById(R.id.tags)
             likes = findViewById(R.id.likes)
@@ -62,6 +67,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
                         override fun onError(e: Exception?) {
                             loadingSpinner.hide()
+                            imageErrorView.show()
                         }
                     })
                 name.text = it.userName
@@ -69,7 +75,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 likes.text = it.numLikes.toString()
                 comments.text = it.numComments.toString()
                 downloads.text = it.numDownloads.toString()
-            }
+            } ?: errorView.show()
         }
 
         detailsViewModel.getImage(args.imageId)

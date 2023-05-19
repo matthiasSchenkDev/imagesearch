@@ -29,7 +29,7 @@ class DetailsViewModel @Inject constructor(
                     val result = imageEntityMapper.transform(networkResult.data)
                     imageResultLiveEvent.postValue(result)
                 }
-
+                // Assumption: no detailed error handling required
                 is NetworkResult.Error -> imageResultLiveEvent.postValue(null)
             }
         }

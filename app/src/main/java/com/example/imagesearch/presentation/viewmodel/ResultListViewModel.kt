@@ -33,7 +33,7 @@ class ResultListViewModel @Inject constructor(
                     val result = networkResult.data.map { imageEntityMapper.transform(it) }
                     resultListLiveEvent.postValue(result)
                 }
-
+                // Assumption: no detailed error handling required
                 is NetworkResult.Error -> resultListLiveEvent.postValue(null)
             }
         }
