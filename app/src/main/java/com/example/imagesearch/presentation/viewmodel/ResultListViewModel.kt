@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.imagesearch.domain.model.NetworkResult
 import com.example.imagesearch.domain.usecase.GetImagesUseCase
 import com.example.imagesearch.presentation.DispatcherProvider
-import com.example.imagesearch.presentation.ImageEntity
-import com.example.imagesearch.presentation.ImageEntityMapper
+import com.example.imagesearch.presentation.mapper.ImageEntityMapper
+import com.example.imagesearch.presentation.model.ImageEntity
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

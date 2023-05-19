@@ -1,4 +1,4 @@
-package com.example.imagesearch.presentation
+package com.example.imagesearch.presentation.model
 
 data class ImageEntity(
     val id: Int,

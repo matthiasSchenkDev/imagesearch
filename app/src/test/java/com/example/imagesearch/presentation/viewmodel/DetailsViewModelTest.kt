@@ -6,8 +6,9 @@ import com.example.imagesearch.TestDispatcherProvider
 import com.example.imagesearch.domain.model.Image
 import com.example.imagesearch.domain.model.NetworkResult
 import com.example.imagesearch.domain.usecase.GetImageUseCase
-import com.example.imagesearch.presentation.ImageEntity
-import com.example.imagesearch.presentation.ImageEntityMapper
+import com.example.imagesearch.presentation.DispatcherProvider
+import com.example.imagesearch.presentation.mapper.ImageEntityMapper
+import com.example.imagesearch.presentation.model.ImageEntity
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
@@ -25,8 +26,7 @@ class DetailsViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val testDispatcherProvider = TestDispatcherProvider()
-
+    private lateinit var testDispatcherProvider: DispatcherProvider
     private lateinit var getImageUseCase: GetImageUseCase
     private lateinit var imageEntityMapper: ImageEntityMapper
     private lateinit var viewModel: DetailsViewModel
@@ -35,6 +35,7 @@ class DetailsViewModelTest {
     fun setup() {
         getImageUseCase = mockk()
         imageEntityMapper = mockk()
+        testDispatcherProvider = TestDispatcherProvider()
         viewModel = DetailsViewModel(getImageUseCase, imageEntityMapper, testDispatcherProvider)
     }
 

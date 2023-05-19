@@ -1,6 +1,7 @@
-package com.example.imagesearch.presentation
+package com.example.imagesearch.presentation.mapper
 
 import com.example.imagesearch.domain.model.Image
+import com.example.imagesearch.presentation.model.ImageEntity
 import javax.inject.Inject
 
 class ImageEntityMapper @Inject constructor() {

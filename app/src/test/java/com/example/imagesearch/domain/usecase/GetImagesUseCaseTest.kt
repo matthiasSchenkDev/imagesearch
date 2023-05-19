@@ -1,9 +1,8 @@
-package com.example.imagesearch.domain
+package com.example.imagesearch.domain.usecase
 
 import com.example.imagesearch.domain.model.Image
 import com.example.imagesearch.domain.model.NetworkResult
 import com.example.imagesearch.domain.repository.ImageRepository
-import com.example.imagesearch.domain.usecase.GetImagesUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

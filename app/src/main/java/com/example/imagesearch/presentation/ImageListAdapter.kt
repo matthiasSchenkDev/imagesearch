@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagesearch.R
+import com.example.imagesearch.presentation.model.ImageEntity
 import com.squareup.picasso.Picasso
 
 class ImageListAdapter :
