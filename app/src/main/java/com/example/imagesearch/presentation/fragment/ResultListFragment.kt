@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.imagesearch.R
@@ -79,7 +80,9 @@ class ResultListFragment : Fragment(R.layout.fragment_result_list) {
         imageListAdapter = ImageListAdapter()
         imageListAdapter.onItemClickListener = { showDetailsNavigationDialog(it) }
         list.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            val layoutManager = LinearLayoutManager(requireContext())
+            this.layoutManager = layoutManager
+            addItemDecoration(DividerItemDecoration(this.context, layoutManager.orientation))
             adapter = imageListAdapter
             addOnScrollListener(PaginationScrollListener {
                 if (!isLoading) {
