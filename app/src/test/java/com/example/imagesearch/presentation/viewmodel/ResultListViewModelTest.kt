@@ -16,6 +16,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -50,7 +51,7 @@ class ResultListViewModelTest {
             val expectedEntities = images.map {
                 ImageEntity(it.id, it.thumbnailUrl, it.tags, it.userName, it.fullImageUrl, 0, 0, 0)
             }
-            val observer: Observer<List<ImageEntity>> = mockk(relaxed = true)
+            val observer: Observer<List<ImageEntity>?> = mockk(relaxed = true)
             viewModel.resultListLiveEvent.observeForever(observer)
             coEvery { getImagesUseCase.build(any()) } returns flowOf(NetworkResult.Success(images))
 
@@ -64,17 +65,18 @@ class ResultListViewModelTest {
         }
 
     @Test
-    fun `getImages with error result should not update resultListLiveEvent`() =
+    fun `getImages with error result should update resultListLiveEvent with null`() =
         runTest(testDispatcherProvider.io()) {
             val query = "cats"
             val error = Throwable("Some error")
-            val observer: Observer<List<ImageEntity>> = mockk(relaxed = true)
+            val observer: Observer<List<ImageEntity>?> = mockk(relaxed = true)
             viewModel.resultListLiveEvent.observeForever(observer)
             coEvery { getImagesUseCase.build(any()) } returns flowOf(NetworkResult.Error(error))
 
             viewModel.getImages(query)
 
-            verify(exactly = 0) { observer.onChanged(any()) }
-        }
+            viewModel.resultListLiveEvent.value?.shouldBeNull()
 
+            verify(exactly = 1) { observer.onChanged(any()) }
+        }
 }

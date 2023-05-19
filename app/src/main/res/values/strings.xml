@@ -5,4 +5,5 @@
     <string name="dialog_message_more_details">Show more details for this image?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="error_hint">Ups! Something went wrong. Please retry later.</string>
 </resources>

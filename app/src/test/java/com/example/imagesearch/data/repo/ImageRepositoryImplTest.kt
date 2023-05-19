@@ -102,7 +102,7 @@ class ImageRepositoryImplTest {
     fun `getImagesPaginated should return error result when no images available`() = runTest {
         val query = "dogs"
         val expectedNetworkResult =
-            NetworkResult.Error<List<Image>>(Throwable("no images available for this query"))
+            NetworkResult.Error<List<Image>>(Throwable("no images available for query: $query"))
 
         coEvery { searchDao.getSearch(any(), any()) } returns null
         coEvery { imageApi.getImages(any(), any(), any()) } returns ImagesDto(null, null, null)
@@ -170,7 +170,7 @@ class ImageRepositoryImplTest {
     fun `getImage should return error result when no image available`() = runTest {
         val id = 2
         val expectedNetworkResult =
-            NetworkResult.Error<Image>(Throwable("no images available for this id"))
+            NetworkResult.Error<Image>(Throwable("no images available for id: $id"))
 
         coEvery { imageDao.getImage(any()) } returns null
         coEvery { imageApi.getImage(any(), any()) } returns ImagesDto(null, null, null)

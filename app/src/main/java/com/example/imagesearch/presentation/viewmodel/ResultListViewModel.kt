@@ -19,25 +19,26 @@ class ResultListViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
-    val resultListLiveEvent: LiveEvent<List<ImageEntity>> = LiveEvent()
+    val resultListLiveEvent: LiveEvent<List<ImageEntity>?> = LiveEvent()
 
-    private var currentQuery: String = ""
+    var currentResultsQuery: String = ""
+        private set
 
     fun getImages(query: String) = viewModelScope.launch(dispatcherProvider.io()) {
-        currentQuery = query
         val params = GetImagesUseCase.Params(query)
         getImagesUseCase.build(params).collect { networkResult ->
             when (networkResult) {
                 is NetworkResult.Success -> {
+                    currentResultsQuery = query
                     val result = networkResult.data.map { imageEntityMapper.transform(it) }
                     resultListLiveEvent.postValue(result)
                 }
 
-                is NetworkResult.Error -> {}
+                is NetworkResult.Error -> resultListLiveEvent.postValue(null)
             }
         }
     }
 
-    fun getMoreImages() = getImages(currentQuery)
+    fun getMoreImages() = getImages(currentResultsQuery)
 
 }

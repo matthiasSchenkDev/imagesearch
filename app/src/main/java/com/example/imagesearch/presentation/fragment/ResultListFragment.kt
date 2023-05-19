@@ -33,11 +33,13 @@ class ResultListFragment : Fragment(R.layout.fragment_result_list) {
     private lateinit var toolbar: Toolbar
     private lateinit var list: RecyclerView
     private lateinit var loadingSpinner: ProgressBar
+    private lateinit var errorView: View
 
     private lateinit var imageListAdapter: ImageListAdapter
     private lateinit var searchView: SearchView
 
     private var isLoading = false
+    private var query: String = INITIAL_QUERY
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,22 +47,32 @@ class ResultListFragment : Fragment(R.layout.fragment_result_list) {
             toolbar = findViewById(R.id.resultListFragmentToolbar)
             loadingSpinner = findViewById(R.id.loadingSpinner)
             list = findViewById(R.id.imagesList)
+            errorView = findViewById(R.id.errorView)
 
             setupToolbar()
             setupList()
 
-            resultListViewModel.resultListLiveEvent.observe(viewLifecycleOwner) {
+            resultListViewModel.resultListLiveEvent.observe(viewLifecycleOwner) { images ->
                 isLoading = false
                 imageListAdapter.removeLoadingItem()
-                imageListAdapter.submitList(it)
                 loadingSpinner.hide()
-                list.show()
+                images?.let {
+                    imageListAdapter.submitList(it)
+                    errorView.hide()
+                    list.show()
+                } ?: showCurrentListOrError()
             }
 
             resultListViewModel.resultListLiveEvent.value?.let {
                 imageListAdapter.submitList(it)
             } ?: searchView.setQuery(INITIAL_QUERY, true)
         }
+    }
+
+    private fun showCurrentListOrError() {
+        if (imageListAdapter.currentList.isEmpty() || query != resultListViewModel.currentResultsQuery) {
+            errorView.show()
+        } else list.show()
     }
 
     private fun setupList() {
@@ -103,8 +115,10 @@ class ResultListFragment : Fragment(R.layout.fragment_result_list) {
                 requireActivity().hideSoftKeyboard()
                 if (!query.isNullOrEmpty()) {
                     isLoading = true
+                    errorView.hide()
                     list.hide()
                     loadingSpinner.show()
+                    this@ResultListFragment.query = query
                     resultListViewModel.getImages(query)
                 }
                 return true
