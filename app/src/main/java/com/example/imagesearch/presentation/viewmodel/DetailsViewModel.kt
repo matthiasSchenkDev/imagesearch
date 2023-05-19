@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.imagesearch.domain.model.NetworkResult
 import com.example.imagesearch.domain.usecase.GetImageUseCase
-import com.example.imagesearch.presentation.DispatcherProvider
+import com.example.imagesearch.presentation.common.DispatcherProvider
 import com.example.imagesearch.presentation.mapper.ImageEntityMapper
 import com.example.imagesearch.presentation.model.ImageEntity
 import com.hadilq.liveevent.LiveEvent

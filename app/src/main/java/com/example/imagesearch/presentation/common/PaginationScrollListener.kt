@@ -1,4 +1,4 @@
-package com.example.imagesearch.presentation
+package com.example.imagesearch.presentation.common
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener

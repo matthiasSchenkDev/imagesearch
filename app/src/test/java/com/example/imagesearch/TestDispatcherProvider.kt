@@ -1,6 +1,6 @@
 package com.example.imagesearch
 
-import com.example.imagesearch.presentation.DispatcherProvider
+import com.example.imagesearch.presentation.common.DispatcherProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 

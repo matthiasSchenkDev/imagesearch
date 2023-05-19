@@ -1,4 +1,4 @@
-package com.example.imagesearch.data
+package com.example.imagesearch.data.mapper
 
 import com.example.imagesearch.app.checkNotNullOrEmpty
 import com.example.imagesearch.data.dto.ImageDto

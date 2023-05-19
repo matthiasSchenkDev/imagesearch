@@ -1,4 +1,4 @@
-package com.example.imagesearch.presentation
+package com.example.imagesearch.presentation.common
 
 import kotlinx.coroutines.CoroutineDispatcher
 

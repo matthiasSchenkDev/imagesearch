@@ -6,7 +6,7 @@ import com.example.imagesearch.TestDispatcherProvider
 import com.example.imagesearch.domain.model.Image
 import com.example.imagesearch.domain.model.NetworkResult
 import com.example.imagesearch.domain.usecase.GetImagesUseCase
-import com.example.imagesearch.presentation.DispatcherProvider
+import com.example.imagesearch.presentation.common.DispatcherProvider
 import com.example.imagesearch.presentation.mapper.ImageEntityMapper
 import com.example.imagesearch.presentation.model.ImageEntity
 import io.mockk.coEvery

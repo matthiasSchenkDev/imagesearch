@@ -16,8 +16,8 @@ import com.example.imagesearch.R
 import com.example.imagesearch.app.hide
 import com.example.imagesearch.app.hideSoftKeyboard
 import com.example.imagesearch.app.show
-import com.example.imagesearch.presentation.ImageListAdapter
-import com.example.imagesearch.presentation.PaginationScrollListener
+import com.example.imagesearch.presentation.common.ImageListAdapter
+import com.example.imagesearch.presentation.common.PaginationScrollListener
 import com.example.imagesearch.presentation.viewmodel.ResultListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

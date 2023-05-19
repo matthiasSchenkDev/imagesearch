@@ -1,7 +1,7 @@
 package com.example.imagesearch.app.di
 
-import com.example.imagesearch.presentation.DefaultDispatcherProvider
-import com.example.imagesearch.presentation.DispatcherProvider
+import com.example.imagesearch.presentation.common.DefaultDispatcherProvider
+import com.example.imagesearch.presentation.common.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.example.imagesearch.presentation
+package com.example.imagesearch.presentation.common
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,6 +1,6 @@
 package com.example.imagesearch.app.di
 
-import com.example.imagesearch.data.ImageRepositoryImpl
+import com.example.imagesearch.data.repo.ImageRepositoryImpl
 import com.example.imagesearch.domain.repository.ImageRepository
 import dagger.Binds
 import dagger.Module

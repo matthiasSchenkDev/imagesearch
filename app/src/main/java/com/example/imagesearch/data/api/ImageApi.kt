@@ -1,4 +1,4 @@
-package com.example.imagesearch.data
+package com.example.imagesearch.data.api
 
 import com.example.imagesearch.data.dto.ImagesDto
 import retrofit2.http.GET

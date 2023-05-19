@@ -1,10 +1,12 @@
-package com.example.imagesearch.data
+package com.example.imagesearch.data.repo
 
-import com.example.imagesearch.data.ImageApi.Companion.DEFAULT_PAGE
+import com.example.imagesearch.data.api.ImageApi
+import com.example.imagesearch.data.api.ImageApi.Companion.DEFAULT_PAGE
 import com.example.imagesearch.data.db.ImageDao
 import com.example.imagesearch.data.db.SearchDao
 import com.example.imagesearch.data.dto.ImageDto
 import com.example.imagesearch.data.dto.SearchDto
+import com.example.imagesearch.data.mapper.ImageDtoMapper
 import com.example.imagesearch.domain.model.Image
 import com.example.imagesearch.domain.model.NetworkResult
 import com.example.imagesearch.domain.repository.ImageRepository
