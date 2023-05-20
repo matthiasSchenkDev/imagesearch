@@ -35,7 +35,7 @@ class GetImageUseCaseTest {
         getImageUseCase.build(GetImageUseCase.Params(id)).collect {
             it `should be instance of` NetworkResult.Success::class.java
             it as NetworkResult.Success
-            it.data.id shouldBeEqualTo id
+            it.value.id shouldBeEqualTo id
         }
 
         coVerify { imageRepository.getImage(any()) }
@@ -46,7 +46,7 @@ class GetImageUseCaseTest {
         getImageUseCase.build(null).collect {
             it `should be instance of` NetworkResult.Error::class.java
             it as NetworkResult.Error
-            it.e.message shouldBeEqualTo "missing id"
+            it.value.message shouldBeEqualTo "missing id"
         }
     }
 

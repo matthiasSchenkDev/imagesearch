@@ -26,7 +26,7 @@ class DetailsViewModel @Inject constructor(
         getImageUseCase.build(params).collect { networkResult ->
             when (networkResult) {
                 is NetworkResult.Success -> {
-                    val result = imageEntityMapper.transform(networkResult.data)
+                    val result = imageEntityMapper.transform(networkResult.value)
                     imageResultLiveEvent.postValue(result)
                 }
                 // Assumption: no detailed error handling required

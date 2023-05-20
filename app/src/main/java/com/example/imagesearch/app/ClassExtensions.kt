@@ -7,10 +7,10 @@ import android.view.inputmethod.InputMethodManager
 val Any.LOG_TAG: String
     get() = this::class.java.simpleName
 
-fun checkNotNullOrEmpty(value: String?) {
+fun checkNotNullOrEmpty(value: String?): String {
     if (value.isNullOrEmpty()) {
         throw IllegalStateException()
-    }
+    } else return value
 }
 
 fun View.show() {

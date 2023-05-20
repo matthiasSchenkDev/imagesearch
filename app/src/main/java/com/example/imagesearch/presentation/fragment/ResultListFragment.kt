@@ -66,7 +66,13 @@ class ResultListFragment : Fragment(R.layout.fragment_result_list) {
 
             resultListViewModel.resultListLiveEvent.value?.let {
                 imageListAdapter.submitList(it)
-            } ?: searchView.setQuery(INITIAL_QUERY, true)
+            } ?: setInitialQuery(savedInstanceState)
+        }
+    }
+
+    private fun setInitialQuery(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            searchView.setQuery(INITIAL_QUERY, true)
         }
     }
 

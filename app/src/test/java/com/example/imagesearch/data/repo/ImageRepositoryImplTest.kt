@@ -57,7 +57,7 @@ class ImageRepositoryImplTest {
             imageRepositoryImpl.getImagesPaginated(query).collect {
                 it `should be instance of` NetworkResult.Success::class.java
                 it as NetworkResult.Success
-                it.data.size shouldBeEqualTo 1
+                it.value.size shouldBeEqualTo 1
             }
 
             coVerify(exactly = 0) { imageApi.getImages(any(), any(), any()) }
@@ -83,7 +83,7 @@ class ImageRepositoryImplTest {
             imageRepositoryImpl.getImagesPaginated(query).collect {
                 it `should be instance of` NetworkResult.Success::class.java
                 it as NetworkResult.Success
-                it.data.size shouldBeEqualTo 1
+                it.value.size shouldBeEqualTo 1
             }
 
             coVerify(exactly = 1) { searchDao.getSearch(any(), any()) }
@@ -110,7 +110,7 @@ class ImageRepositoryImplTest {
         imageRepositoryImpl.getImagesPaginated(query).collect {
             it `should be instance of` NetworkResult.Error::class.java
             it as NetworkResult.Error
-            it.e.message shouldBeEqualTo expectedNetworkResult.e.message
+            it.value.message shouldBeEqualTo expectedNetworkResult.value.message
         }
 
         coVerify(exactly = 1) { imageApi.getImages("test-api-key", query, ImageApi.DEFAULT_PAGE) }
@@ -131,7 +131,7 @@ class ImageRepositoryImplTest {
         imageRepositoryImpl.getImage(id).collect {
             it `should be instance of` NetworkResult.Success::class.java
             it as NetworkResult.Success
-            it.data.id shouldBeEqualTo id
+            it.value.id shouldBeEqualTo id
         }
 
         coVerify(exactly = 1) { imageDao.getImage(any()) }
@@ -157,7 +157,7 @@ class ImageRepositoryImplTest {
         imageRepositoryImpl.getImage(id).collect {
             it `should be instance of` NetworkResult.Success::class.java
             it as NetworkResult.Success
-            it.data.id shouldBeEqualTo id
+            it.value.id shouldBeEqualTo id
         }
 
         coVerify(exactly = 1) { imageDao.getImage(any()) }
@@ -178,7 +178,7 @@ class ImageRepositoryImplTest {
         imageRepositoryImpl.getImage(id).collect {
             it `should be instance of` NetworkResult.Error::class.java
             it as NetworkResult.Error
-            it.e.message shouldBeEqualTo expectedNetworkResult.e.message
+            it.value.message shouldBeEqualTo expectedNetworkResult.value.message
         }
 
         coVerify(exactly = 1) { imageDao.getImage(any()) }

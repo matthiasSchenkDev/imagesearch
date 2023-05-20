@@ -26,7 +26,7 @@ class NetworkModule {
     private object RequestInterceptor : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             val request = chain.request()
-            Log.d(LOG_TAG, "New request: ${request.url()}")
+            Log.d(LOG_TAG, "new request: ${request.url()}")
             return chain.proceed(request)
         }
     }

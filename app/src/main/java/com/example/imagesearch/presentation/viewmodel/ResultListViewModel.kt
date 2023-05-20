@@ -30,7 +30,7 @@ class ResultListViewModel @Inject constructor(
             when (networkResult) {
                 is NetworkResult.Success -> {
                     currentResultsQuery = query
-                    val result = networkResult.data.map { imageEntityMapper.transform(it) }
+                    val result = networkResult.value.map { imageEntityMapper.transform(it) }
                     resultListLiveEvent.postValue(result)
                 }
                 // Assumption: no detailed error handling required

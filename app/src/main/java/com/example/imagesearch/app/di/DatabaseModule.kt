@@ -16,14 +16,15 @@ import javax.inject.Singleton
 @Module
 class DatabaseModule {
 
+    companion object {
+        private const val DATABASE_NAME = "image-search-database"
+    }
+
     @Provides
     @Singleton
     fun provideAppDatabase(@ApplicationContext applicationContext: Context): AppDatabase {
-        return Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "image-search-database"
-        ).build()
+        return Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME)
+            .build()
     }
 
     @Provides

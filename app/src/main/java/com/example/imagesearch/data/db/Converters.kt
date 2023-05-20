@@ -8,27 +8,25 @@ import com.google.gson.reflect.TypeToken
 
 class Converters {
 
+    private val gson = Gson()
+
     @TypeConverter
     fun fromSearchDtoString(value: SearchDto): String {
-        val gson = Gson()
         return gson.toJson(value)
     }
 
     @TypeConverter
     fun toSearchDto(value: String): SearchDto {
-        val gson = Gson()
         return gson.fromJson(value, object : TypeToken<SearchDto>() {}.type)
     }
 
     @TypeConverter
     fun fromImageDtoString(value: List<ImageDto>): String {
-        val gson = Gson()
         return gson.toJson(value)
     }
 
     @TypeConverter
     fun toImageDto(value: String): List<ImageDto> {
-        val gson = Gson()
         return gson.fromJson(value, object : TypeToken<List<ImageDto>>() {}.type)
     }
 

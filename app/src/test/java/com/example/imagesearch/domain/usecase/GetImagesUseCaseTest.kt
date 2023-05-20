@@ -41,9 +41,9 @@ class GetImagesUseCaseTest {
         getImagesUseCase.build(GetImagesUseCase.Params(query)).collect {
             it `should be instance of` NetworkResult.Success::class.java
             it as NetworkResult.Success
-            it.data.size shouldBeEqualTo 2
-            it.data.first().id shouldBeEqualTo 1
-            it.data.last().id shouldBeEqualTo 2
+            it.value.size shouldBeEqualTo 2
+            it.value.first().id shouldBeEqualTo 1
+            it.value.last().id shouldBeEqualTo 2
         }
 
         coVerify { imageRepository.getImagesPaginated(any()) }
@@ -54,7 +54,7 @@ class GetImagesUseCaseTest {
         getImagesUseCase.build(null).collect {
             it `should be instance of` NetworkResult.Error::class.java
             it as NetworkResult.Error
-            it.e.message shouldBeEqualTo "missing query"
+            it.value.message shouldBeEqualTo "missing query"
         }
     }
 

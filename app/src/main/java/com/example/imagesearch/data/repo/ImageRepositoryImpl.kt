@@ -26,7 +26,7 @@ class ImageRepositoryImpl @Inject constructor(
 ) : ImageRepository {
 
     private var currentQuery = ""
-    private var paginationIndex = DEFAULT_PAGE
+    private var currentPaginationIndex = DEFAULT_PAGE
     private val paginationCache = mutableListOf<Image>()
 
     override suspend fun getImagesPaginated(query: String): Flow<NetworkResult<List<Image>>> =
@@ -35,7 +35,7 @@ class ImageRepositoryImpl @Inject constructor(
                 NetworkResult.Error<List<Image>>(Throwable("no images available for query: $query"))
 
             if (currentQuery == query) {
-                paginationIndex++
+                currentPaginationIndex++
             } else {
                 resetPagination()
                 currentQuery = query
@@ -55,36 +55,14 @@ class ImageRepositoryImpl @Inject constructor(
                 currentQuery = ""
                 NetworkResult.Error(e)
             }
+
             emit(result)
         }
-
-    @Throws(Throwable::class)
-    private suspend fun getImagesFromWeb(query: String): List<ImageDto>? {
-        val imagesDto = imageApi.getImages(key = apiKey, query = query, page = paginationIndex)
-        return imagesDto.hits?.let {
-            val search = SearchDto(query = query, numPage = paginationIndex, images = it)
-            searchDao.insertSearch(search)
-            it
-        }
-    }
-
-    private fun getImagesFromCache(query: String): List<ImageDto>? {
-        // Assumption: "caching" does not include storing the actual image file on the device
-        // in addition to the cache provided by image libraries like "picasso"
-        return searchDao.getSearch(query, page = paginationIndex)?.let {
-            paginationIndex = it.numPage
-            it.images
-        }
-    }
-
-    private fun resetPagination() {
-        paginationCache.clear()
-        paginationIndex = DEFAULT_PAGE
-    }
 
     override suspend fun getImage(id: Int): Flow<NetworkResult<Image>> = flow {
         val notAvailableResult =
             NetworkResult.Error<Image>(Throwable("no images available for id: $id"))
+
         val result = try {
             val imageDto = getImageFromCache(id) ?: getImageFromWeb(id)
             imageDto?.let { dto ->
@@ -95,7 +73,33 @@ class ImageRepositoryImpl @Inject constructor(
         } catch (e: Throwable) {
             NetworkResult.Error(e)
         }
+
         emit(result)
+    }
+
+    @Throws(Throwable::class)
+    private suspend fun getImagesFromWeb(query: String): List<ImageDto>? {
+        val imagesDto =
+            imageApi.getImages(key = apiKey, query = query, page = currentPaginationIndex)
+        return imagesDto.hits?.let {
+            val search = SearchDto(query = query, numPage = currentPaginationIndex, images = it)
+            searchDao.insertSearch(search)
+            it
+        }
+    }
+
+    private fun getImagesFromCache(query: String): List<ImageDto>? {
+        // Assumption: "caching" does not include storing the actual image file on the device
+        // in addition to the cache provided by image libraries like "picasso"
+        return searchDao.getSearch(query, page = currentPaginationIndex)?.let {
+            currentPaginationIndex = it.numPage
+            it.images
+        }
+    }
+
+    private fun resetPagination() {
+        paginationCache.clear()
+        currentPaginationIndex = DEFAULT_PAGE
     }
 
     @Throws(Throwable::class)
