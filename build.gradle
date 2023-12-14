@@ -1,12 +1,12 @@
 buildscript {
-    ext.kotlin_version = '1.8.21'
-    ext.dagger_hilt_version = '2.44'
+    ext.kotlin_version = '1.9.20'
+    ext.dagger_hilt_version = '2.49'
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.1'
+        classpath 'com.android.tools.build:gradle:8.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.3")
     }
