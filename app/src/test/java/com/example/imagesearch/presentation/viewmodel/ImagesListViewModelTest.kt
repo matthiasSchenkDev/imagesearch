@@ -22,7 +22,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class ResultListViewModelTest {
+class ImagesListViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -30,14 +30,14 @@ class ResultListViewModelTest {
     private lateinit var testDispatcherProvider: DispatcherProvider
     private lateinit var getImagesUseCase: GetImagesUseCase
     private lateinit var imageEntityMapper: ImageEntityMapper
-    private lateinit var viewModel: ResultListViewModel
+    private lateinit var viewModel: ImagesListViewModel
 
     @Before
     fun setup() {
         getImagesUseCase = mockk()
         imageEntityMapper = ImageEntityMapper()
         testDispatcherProvider = TestDispatcherProvider()
-        viewModel = ResultListViewModel(getImagesUseCase, imageEntityMapper, testDispatcherProvider)
+        viewModel = ImagesListViewModel(getImagesUseCase, imageEntityMapper, testDispatcherProvider)
     }
 
     @Test

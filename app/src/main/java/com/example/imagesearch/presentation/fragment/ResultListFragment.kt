@@ -19,7 +19,7 @@ import com.example.imagesearch.app.hideSoftKeyboard
 import com.example.imagesearch.app.show
 import com.example.imagesearch.presentation.common.ImageListAdapter
 import com.example.imagesearch.presentation.common.PaginationScrollListener
-import com.example.imagesearch.presentation.viewmodel.ResultListViewModel
+import com.example.imagesearch.presentation.viewmodel.ImagesListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,7 +29,7 @@ class ResultListFragment : Fragment(R.layout.fragment_result_list) {
         private const val INITIAL_QUERY = "fruits"
     }
 
-    private val resultListViewModel: ResultListViewModel by viewModels()
+    private val imagesListViewModel: ImagesListViewModel by viewModels()
 
     private lateinit var toolbar: Toolbar
     private lateinit var list: RecyclerView
@@ -53,20 +53,20 @@ class ResultListFragment : Fragment(R.layout.fragment_result_list) {
             setupToolbar()
             setupList()
 
-            resultListViewModel.resultListLiveEvent.observe(viewLifecycleOwner) { images ->
-                isLoading = false
-                imageListAdapter.removeLoadingItem()
-                loadingSpinner.hide()
-                images?.let {
-                    imageListAdapter.submitList(it)
-                    errorView.hide()
-                    list.show()
-                } ?: showCurrentListOrError()
-            }
+            /*            resultListViewModel.resultListLiveEvent.observe(viewLifecycleOwner) { images ->
+                            isLoading = false
+                            imageListAdapter.removeLoadingItem()
+                            loadingSpinner.hide()
+                            images?.let {
+                                imageListAdapter.submitList(it)
+                                errorView.hide()
+                                list.show()
+                            } ?: showCurrentListOrError()
+                        }
 
-            resultListViewModel.resultListLiveEvent.value?.let {
-                imageListAdapter.submitList(it)
-            } ?: setInitialQuery(savedInstanceState)
+                        resultListViewModel.resultListLiveEvent.value?.let {
+                            imageListAdapter.submitList(it)
+                        } ?: setInitialQuery(savedInstanceState)*/
         }
     }
 
@@ -77,7 +77,7 @@ class ResultListFragment : Fragment(R.layout.fragment_result_list) {
     }
 
     private fun showCurrentListOrError() {
-        if (imageListAdapter.currentList.isEmpty() || query != resultListViewModel.currentResultsQuery) {
+        if (imageListAdapter.currentList.isEmpty() || query != imagesListViewModel.currentResultsQuery) {
             errorView.show()
         } else list.show()
     }
@@ -94,7 +94,7 @@ class ResultListFragment : Fragment(R.layout.fragment_result_list) {
                 if (!isLoading) {
                     isLoading = true
                     imageListAdapter.addLoadingItem()
-                    resultListViewModel.getMoreImages()
+                    imagesListViewModel.getMoreImages()
                 }
             })
         }
@@ -128,7 +128,7 @@ class ResultListFragment : Fragment(R.layout.fragment_result_list) {
                     list.hide()
                     loadingSpinner.show()
                     this@ResultListFragment.query = query
-                    resultListViewModel.getImages(query)
+                    imagesListViewModel.getImages(query)
                 }
                 return true
             }

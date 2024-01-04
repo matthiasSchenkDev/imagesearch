@@ -1,5 +1,9 @@
 package com.example.imagesearch.presentation.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class ImageEntity(
     val id: Int,
     val thumbnailUrl: String,
@@ -9,4 +13,4 @@ data class ImageEntity(
     val numLikes: Int,
     val numComments: Int,
     val numDownloads: Int
-)
+) : Parcelable
