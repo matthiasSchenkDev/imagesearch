@@ -21,6 +21,7 @@ import com.example.imagesearch.presentation.state.ImagesListState
 fun ImagesList(
     state: ImagesListState,
     onBottomReached: () -> Unit,
+    onItemClick: (imageId: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val images = state.images ?: listOf()
@@ -32,7 +33,7 @@ fun ImagesList(
                 onBottomReached()
             }
             key(images[i].id) {
-                ImagesListItem(image = images[i])
+                ImagesListItem(image = images[i], onItemClick)
                 Divider(color = Color.Gray)
             }
         }
@@ -89,6 +90,7 @@ fun PreviewImagesList() {
                 )
             )
         ),
-        onBottomReached = {}
+        onBottomReached = {},
+        onItemClick = {}
     )
 }

@@ -17,6 +17,12 @@ fun ImagesScreen(imagesListState: ImagesListState, onEvent: (ImagesListEvent) ->
             .fillMaxSize()
             .background(Color.White)
     ) {
-        ImagesList(imagesListState, onBottomReached = { onEvent(ImagesListEvent.LOAD_MORE) })
+        ImagesList(
+            imagesListState,
+            onBottomReached = { onEvent(ImagesListEvent.LoadMore) },
+            onItemClick = {
+                onEvent(ImagesListEvent.OpenDetails(it))
+            }
+        )
     }
 }

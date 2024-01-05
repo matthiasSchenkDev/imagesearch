@@ -13,11 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.imagesearch.R
-import com.example.imagesearch.app.hide
-import com.example.imagesearch.app.show
 import com.example.imagesearch.presentation.viewmodel.DetailsViewModel
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -55,29 +51,29 @@ class DetailsFragment(val a: ViewModel) : Fragment(R.layout.fragment_details) {
             downloads = findViewById(R.id.downloads)
         }
 
-        detailsViewModel.imageResultLiveEvent.observe(viewLifecycleOwner) { image ->
-            image?.let {
-                Picasso
-                    .get()
-                    .load(image.fullImageUrl)
-                    .error(R.drawable.ic_camera)
-                    .into(this.image, object : Callback {
-                        override fun onSuccess() {
-                            loadingSpinner.hide()
-                        }
+        /*        detailsViewModel.imageResultLiveEvent.observe(viewLifecycleOwner) { image ->
+                    image?.let {
+                        Picasso
+                            .get()
+                            .load(image.fullImageUrl)
+                            .error(R.drawable.ic_camera)
+                            .into(this.image, object : Callback {
+                                override fun onSuccess() {
+                                    loadingSpinner.hide()
+                                }
 
-                        override fun onError(e: Exception?) {
-                            loadingSpinner.hide()
-                            imageErrorView.show()
-                        }
-                    })
-                name.text = it.userName
-                tags.text = it.tags
-                likes.text = it.numLikes.toString()
-                comments.text = it.numComments.toString()
-                downloads.text = it.numDownloads.toString()
-            } ?: errorView.show()
-        }
+                                override fun onError(e: Exception?) {
+                                    loadingSpinner.hide()
+                                    imageErrorView.show()
+                                }
+                            })
+                        name.text = it.userName
+                        tags.text = it.tags
+                        likes.text = it.numLikes.toString()
+                        comments.text = it.numComments.toString()
+                        downloads.text = it.numDownloads.toString()
+                    } ?: errorView.show()
+                }*/
 
         detailsViewModel.getImage(args.imageId)
     }

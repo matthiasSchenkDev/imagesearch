@@ -47,7 +47,7 @@ class ImagesListViewModel @Inject constructor(
                 }
 
                 is NetworkResult.Error -> savedStateHandle[STATE_HANDLE_KEY_IMAGES] =
-                    imagesListState.value.copy(images = null)
+                    imagesListState.value.copy(images = null, isLoading = false)
             }
         }
     }

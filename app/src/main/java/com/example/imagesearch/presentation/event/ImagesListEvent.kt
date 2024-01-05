@@ -1,5 +1,6 @@
 package com.example.imagesearch.presentation.event
 
-enum class ImagesListEvent {
-    LOAD_MORE
+sealed class ImagesListEvent {
+    data object LoadMore : ImagesListEvent()
+    data class OpenDetails(val id: Int) : ImagesListEvent()
 }

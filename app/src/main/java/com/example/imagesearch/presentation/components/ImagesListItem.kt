@@ -2,9 +2,11 @@ package com.example.imagesearch.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
@@ -22,11 +24,14 @@ import com.example.imagesearch.presentation.model.ImageEntity
 @Composable
 fun ImagesListItem(
     image: ImageEntity,
+    onClick: (id: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
+            .fillMaxWidth()
             .padding(dimensionResource(id = R.dimen.margin_medium))
+            .clickable { onClick(image.id) }
     ) {
         AsyncImage(
             modifier = Modifier
@@ -72,6 +77,6 @@ fun PreviewImagesListItem() {
             numLikes = 0,
             numComments = 0,
             numDownloads = 0
-        )
+        ), onClick = {}
     )
 }
