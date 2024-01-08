@@ -15,6 +15,8 @@ import com.example.imagesearch.presentation.screens.DetailsScreen
 import com.example.imagesearch.presentation.screens.ImagesScreen
 import com.example.imagesearch.presentation.viewmodel.DetailsViewModel
 import com.example.imagesearch.presentation.viewmodel.ImagesListViewModel
+import com.example.imagesearch.presentation.viewmodel.actions.DetailsAction
+import com.example.imagesearch.presentation.viewmodel.actions.ImagesListAction
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,9 +34,15 @@ class ImageSearchActivity : AppCompatActivity() {
                     val state by imagesListViewModel.imagesListState.collectAsState()
                     ImagesScreen(state, onEvent = {
                         when (it) {
-                            is ImagesListEvent.LoadMore -> imagesListViewModel.getMoreImages()
+                            is ImagesListEvent.Search -> imagesListViewModel.onEvent(
+                                ImagesListAction.Search(it.text)
+                            )
+
+                            is ImagesListEvent.LoadMore ->
+                                imagesListViewModel.onEvent(ImagesListAction.LoadMore)
+
                             is ImagesListEvent.OpenDetails -> {
-                                detailsViewModel.getImage(it.id)
+                                detailsViewModel.onEvent(DetailsAction.Load(it.id))
                                 navController.navigate(Routes.DETAIL)
                             }
                         }

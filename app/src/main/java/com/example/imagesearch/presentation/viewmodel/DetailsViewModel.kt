@@ -8,6 +8,7 @@ import com.example.imagesearch.domain.usecase.GetImageUseCase
 import com.example.imagesearch.presentation.common.DispatcherProvider
 import com.example.imagesearch.presentation.mapper.ImageEntityMapper
 import com.example.imagesearch.presentation.state.DetailsState
+import com.example.imagesearch.presentation.viewmodel.actions.DetailsAction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,6 +44,12 @@ class DetailsViewModel @Inject constructor(
                 is NetworkResult.Error -> savedStateHandle[STATE_HANDLE_KEY_DETAILS] =
                     detailsState.value.copy(imageEntity = null, isLoading = false)
             }
+        }
+    }
+
+    fun onEvent(event: DetailsAction.Load) {
+        when (event) {
+            is DetailsAction.Load -> getImage(event.id)
         }
     }
 

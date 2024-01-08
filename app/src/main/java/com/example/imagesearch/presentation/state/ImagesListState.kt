@@ -7,6 +7,7 @@ import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class ImagesListState(
+    val query: String,
     val images: @RawValue List<ImageEntity>? = listOf(),
     val isLoading: Boolean = false
 ) : Parcelable

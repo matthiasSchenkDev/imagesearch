@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Image search</string>
     <string name="app_title">Image search</string>
-    <string name="menu_item_search_view">Search</string>
+    <string name="action_search">Search</string>
     <string name="dialog_message_more_details">Show more details for this image?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>

@@ -8,6 +8,7 @@ import com.example.imagesearch.domain.usecase.GetImagesUseCase
 import com.example.imagesearch.presentation.common.DispatcherProvider
 import com.example.imagesearch.presentation.mapper.ImageEntityMapper
 import com.example.imagesearch.presentation.state.ImagesListState
+import com.example.imagesearch.presentation.viewmodel.actions.ImagesListAction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,20 +28,30 @@ class ImagesListViewModel @Inject constructor(
 
     val imagesListState = savedStateHandle.getStateFlow(
         key = STATE_HANDLE_KEY_IMAGES,
-        initialValue = ImagesListState()
+        initialValue = ImagesListState(INITIAL_QUERY)
     )
 
-    var currentResultsQuery: String = ""
-        private set
+    fun onEvent(event: ImagesListAction) {
+        when (event) {
+            is ImagesListAction.Search -> getImages(event.text)
+            is ImagesListAction.LoadMore -> getMoreImages()
+            else -> {}
+        }
+    }
 
     fun getImages(query: String = INITIAL_QUERY) = viewModelScope.launch(dispatcherProvider.io()) {
         savedStateHandle[STATE_HANDLE_KEY_IMAGES] =
-            imagesListState.value.copy(isLoading = true)
+            imagesListState.value.copy(
+                query = query,
+                images = if (query == imagesListState.value.query) {
+                    imagesListState.value.images
+                } else listOf(),
+                isLoading = true
+            )
         val params = GetImagesUseCase.Params(query)
         getImagesUseCase.build(params).collect { networkResult ->
             when (networkResult) {
                 is NetworkResult.Success -> {
-                    currentResultsQuery = query
                     val result = networkResult.value.map { imageEntityMapper.transform(it) }
                     savedStateHandle[STATE_HANDLE_KEY_IMAGES] =
                         imagesListState.value.copy(images = result, isLoading = false)
@@ -52,6 +63,6 @@ class ImagesListViewModel @Inject constructor(
         }
     }
 
-    fun getMoreImages() = getImages(currentResultsQuery)
+    fun getMoreImages() = getImages(imagesListState.value.query)
 
 }

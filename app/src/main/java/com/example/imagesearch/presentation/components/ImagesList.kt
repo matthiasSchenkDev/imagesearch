@@ -38,7 +38,7 @@ fun ImagesList(
             }
         }
         item {
-            if (state.isLoading && images.isNotEmpty()) {
+            if (state.isLoading) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -57,6 +57,7 @@ fun ImagesList(
 fun PreviewImagesList() {
     ImagesList(
         ImagesListState(
+            query = "",
             images = listOf(
                 ImageEntity(
                     id = 0,
@@ -91,6 +92,6 @@ fun PreviewImagesList() {
             )
         ),
         onBottomReached = {},
-        onItemClick = {}
+        onItemClick = {},
     )
 }

@@ -76,11 +76,11 @@ class ResultListFragment : Fragment(R.layout.fragment_result_list) {
         }
     }
 
-    private fun showCurrentListOrError() {
-        if (imageListAdapter.currentList.isEmpty() || query != imagesListViewModel.currentResultsQuery) {
-            errorView.show()
-        } else list.show()
-    }
+    /*    private fun showCurrentListOrError() {
+            if (imageListAdapter.currentList.isEmpty() || query != imagesListViewModel.currentResultsQuery) {
+                errorView.show()
+            } else list.show()
+        }*/
 
     private fun setupList() {
         imageListAdapter = ImageListAdapter()
