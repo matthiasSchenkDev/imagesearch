@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface ImageRepository {
 
-    suspend fun getImagesPaginated(query: String): Flow<NetworkResult<List<Image>>>
+    fun getImagesPaginated(query: String): Flow<NetworkResult<List<Image>>>
 
-    suspend fun getImage(id: Int): Flow<NetworkResult<Image>>
+    fun getImage(id: Int): Flow<NetworkResult<Image>>
 
 }

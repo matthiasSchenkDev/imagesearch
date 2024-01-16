@@ -6,4 +6,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="error_hint">Ups! Something went wrong. Please retry later.</string>
+    <string name="details">Details</string>
+    <string name="back">Back\n</string>
 </resources>

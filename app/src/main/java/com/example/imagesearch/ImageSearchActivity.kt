@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.imagesearch.presentation.event.DetailsEvent
 import com.example.imagesearch.presentation.event.ImagesListEvent
 import com.example.imagesearch.presentation.navigation.Routes
 import com.example.imagesearch.presentation.screens.DetailsScreen
@@ -29,6 +30,7 @@ class ImageSearchActivity : AppCompatActivity() {
             val detailsViewModel = hiltViewModel<DetailsViewModel>()
 
             val navController = rememberNavController()
+
             NavHost(navController = navController, startDestination = Routes.LIST) {
                 composable(Routes.LIST) {
                     val state by imagesListViewModel.imagesListState.collectAsState()
@@ -50,7 +52,11 @@ class ImageSearchActivity : AppCompatActivity() {
                 }
                 composable(Routes.DETAIL) {
                     val state by detailsViewModel.detailsState.collectAsState()
-                    DetailsScreen(state)
+                    DetailsScreen(state, onEvent = {
+                        when (it) {
+                            is DetailsEvent.Back -> navController.navigateUp()
+                        }
+                    })
                 }
             }
             imagesListViewModel.getImages()

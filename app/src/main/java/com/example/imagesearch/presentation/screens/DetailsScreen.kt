@@ -9,28 +9,53 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Surface
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.example.imagesearch.R
+import com.example.imagesearch.presentation.components.ErrorComponent
 import com.example.imagesearch.presentation.components.IconText
+import com.example.imagesearch.presentation.event.DetailsEvent
 import com.example.imagesearch.presentation.state.DetailsState
 
 @Composable
 fun DetailsScreen(
-    state: DetailsState
+    state: DetailsState, onEvent: (DetailsEvent) -> Unit
 ) {
-    Surface(
+    Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White),
-    ) {
-        Column {
+        topBar = {
+            TopAppBar(
+                title = { Text(text = stringResource(id = R.string.details)) },
+                navigationIcon = {
+                    IconButton(onClick = { onEvent(DetailsEvent.Back) }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.back)
+                        )
+                    }
+                },
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -44,13 +69,11 @@ fun DetailsScreen(
                 } else {
                     state.imageEntity?.let {
                         SubcomposeAsyncImage(
-                            loading = {
-                                CircularProgressIndicator()
-                            },
+                            loading = { CircularProgressIndicator() },
                             model = it.fullImageUrl,
                             contentDescription = it.fullImageUrl,
                         )
-                    }
+                    } ?: ErrorComponent()
                 }
             }
             IconText(

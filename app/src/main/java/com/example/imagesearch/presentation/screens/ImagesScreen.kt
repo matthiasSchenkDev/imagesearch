@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import com.example.imagesearch.R
+import com.example.imagesearch.presentation.components.ErrorComponent
 import com.example.imagesearch.presentation.components.ImagesList
 import com.example.imagesearch.presentation.event.ImagesListEvent
 import com.example.imagesearch.presentation.state.ImagesListState
@@ -78,13 +79,15 @@ fun ImagesScreen(imagesListState: ImagesListState, onEvent: (ImagesListEvent) ->
                         )
                     )
                 })
-            ImagesList(
-                imagesListState,
-                onBottomReached = { onEvent(ImagesListEvent.LoadMore) },
-                onItemClick = {
-                    onEvent(ImagesListEvent.OpenDetails(it))
-                }
-            )
+            imagesListState.images?.let {
+                ImagesList(
+                    imagesListState,
+                    onBottomReached = { onEvent(ImagesListEvent.LoadMore) },
+                    onItemClick = {
+                        onEvent(ImagesListEvent.OpenDetails(it))
+                    }
+                )
+            } ?: ErrorComponent()
         }
     }
 }

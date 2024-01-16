@@ -12,7 +12,7 @@ class GetImageUseCase @Inject constructor(private val imageRepository: ImageRepo
 
     data class Params(val id: Int) : UseCaseParams
 
-    override suspend fun build(params: UseCaseParams?): Flow<NetworkResult<Image>> {
+    override fun build(params: UseCaseParams?): Flow<NetworkResult<Image>> {
         return params?.let {
             it as Params
             imageRepository.getImage(it.id)

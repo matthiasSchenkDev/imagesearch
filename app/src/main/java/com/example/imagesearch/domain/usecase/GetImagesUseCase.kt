@@ -13,7 +13,7 @@ class GetImagesUseCase @Inject constructor(
 
     data class Params(val query: String) : UseCaseParams
 
-    override suspend fun build(params: UseCaseParams?): Flow<NetworkResult<List<Image>>> {
+    override fun build(params: UseCaseParams?): Flow<NetworkResult<List<Image>>> {
         return params?.let {
             it as Params
             imageRepository.getImagesPaginated(it.query)

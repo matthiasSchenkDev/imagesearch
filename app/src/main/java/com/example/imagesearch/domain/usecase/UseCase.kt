@@ -4,5 +4,5 @@ import com.example.imagesearch.domain.model.NetworkResult
 import kotlinx.coroutines.flow.Flow
 
 interface UseCase<T : Any> {
-    suspend fun build(params: UseCaseParams? = null): Flow<NetworkResult<T>>
+    fun build(params: UseCaseParams? = null): Flow<NetworkResult<T>>
 }
